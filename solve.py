@@ -81,13 +81,13 @@ class State:
     # Returns a new state based on an answer and guess
     def guess(self, answer, guess):
         state = self.clone()
-        for i, (a, b) in enumerate(zip(answer, guess)):
-            if a == b:
-                state.add_exact(b, i)
-            elif b in answer:
-                state.add_contains(b, i)
+        for i in range(5):
+            if answer[i] == guess[i]:
+                state.add_exact(guess[i], i)
+            elif guess[i] in answer:
+                state.add_contains(guess[i], i)
             else:
-                state.add_absent(b)
+                state.add_absent(guess[i])
 
         state.update_string()
         return state
@@ -113,7 +113,13 @@ words = f.read().split("\n")
 # Current game state
 state = State({}, {}, [])
 
+c = 0
+
 def calc_score(guess, answer):
+    global c
+    c = c + 1
+    if c % 1000000 == 0:
+        print(c)
     temp_state = state.guess(answer, guess)
     return len(list(filter(lambda w: not temp_state.is_match(w), filtered_words)))
 
