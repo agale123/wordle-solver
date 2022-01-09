@@ -113,13 +113,7 @@ words = f.read().split("\n")
 # Current game state
 state = State({}, {}, [])
 
-c = 0
-
 def calc_score(guess, answer):
-    global c
-    c = c + 1
-    if c % 1000000 == 0:
-        print(c)
     temp_state = state.guess(answer, guess)
     return len(list(filter(lambda w: not temp_state.is_match(w), filtered_words)))
 
@@ -134,9 +128,10 @@ for x in range(1, 7):
         break
     elif len(filtered_words) == 1:
         guessed_word = filtered_words[0]
-    #elif x == 1:
+    elif x == 1:
         # Always returns the same first word so might as well hardcode for performance
-    #    guessed_word = "arise"
+        # TODO(agale): update first word
+        guessed_word = "arise"
     else:
         series_rows = pd.Series(words)
         series_cols = pd.Series(filtered_words)
@@ -160,6 +155,4 @@ for x in range(1, 7):
 
 # 1/9
 # word: gorge
-
-# With memo 53
-# Without memo
+# guesses:
