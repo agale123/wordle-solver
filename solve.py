@@ -106,9 +106,11 @@ class State:
         self.update_string()
 
 
-# Read in all possible words
-f = open("5.txt", "r")
+# Read in all possible words and possible solutions
+f = open("5words.txt", "r")
 words = f.read().split("\n")
+f = open("5solutions.txt", "r")
+solutions = f.read().split("\n")
 
 # Current game state
 state = State({}, {}, [])
@@ -120,7 +122,7 @@ def calc_score(guess, answer):
 # Loop for all entries
 for x in range(1, 7):
     # Eliminate any non-matching words
-    filtered_words = list(filter(state.is_match, words))
+    filtered_words = list(filter(state.is_match, solutions))
     guessed_word = None
 
     if len(filtered_words) == 0:
@@ -130,8 +132,7 @@ for x in range(1, 7):
         guessed_word = filtered_words[0]
     elif x == 1:
         # Always returns the same first word so might as well hardcode for performance
-        # TODO(agale): update first word
-        guessed_word = "arise"
+        guessed_word = "soare"
     else:
         series_rows = pd.Series(words)
         series_cols = pd.Series(filtered_words)
@@ -151,8 +152,8 @@ for x in range(1, 7):
 
 # 1/8
 # word: crank
-# guesses: arise, count, crank
+# guesses: soare, clint, crank
 
 # 1/9
 # word: gorge
-# guesses:
+# guesses: soare, faugh, gorge
